@@ -14,12 +14,15 @@ public class PlayerClass : MonoBehaviour {
 	public int[] possibleDirection;	
 
 	public float PlayerSpeed ;
-	public float playerspeedcoef = 1.0f;
+	public float playerspeedcoef ;
 	int Proverka;
+
 
 	public bool start = false;
 
 	void Start () {
+
+		playerspeedcoef =   Menu.PlayerSpeed;
 		PlayerSpeed = 0;
 		Proverka = 0;
 		start = false;
@@ -129,7 +132,7 @@ public class PlayerClass : MonoBehaviour {
 		}
 		if( myTrigger.gameObject.tag == "Ghost" ) {
 			if( myTrigger.gameObject.GetComponent<Ghost>().State == 1 ) { 
-			//	myTrigger.gameObject.GetComponent<Ghost>().State = 0;
+				myTrigger.gameObject.GetComponent<Ghost>().State = 0;
 			}
 			if( myTrigger.gameObject.GetComponent<Ghost>().State == 2 ) { 
 				myTrigger.gameObject.GetComponent<Ghost>().State = 3;

@@ -27,18 +27,23 @@ public class Game : MonoBehaviour
 
 	// Координаты точек спавна
 	static public string[] Spawns;
-	static public int GhostNum = 0 ;
+
 
 
 	static public  float BoostCount = 0.0f ;
 	static public bool Boost = false;
+
+	int Count = 0 ;
+	float deltaTime = 0 	;
+
 
 	void Start ()
 	{
 
 		Application.targetFrameRate = 30; 
 
-		GhostNum  = 0;
+		deltaTime = Time.time;
+		Count = 0;
 
 		// Грузим из prefs все нужные данные : тип обьекта,угол поворота и координаты спавнов
 		String Filename = Menu.NamesArr [Menu.selGridInt];
@@ -62,12 +67,21 @@ public class Game : MonoBehaviour
 		
 		Player.transform.position = new Vector3 (PlayerClass.NumAtX * Menu.CubeSize,PlayerClass.NumAtY * Menu.CubeSize, Menu.CubeSize / 4);
 		Ghosts = new GameObject[Menu.GhostCols];
-		InvokeRepeating("newGhost", 0.0f,0.5f );
+
 
 	}
 
 
 	void Update () {
+
+		if ( Time.time- deltaTime  > 0.7f  && Count< Menu.GhostCols ) 
+		{
+			deltaTime = Time.time;
+			newGhost();
+			Count++;
+		
+		}
+			
 		// Расчет режима "страха" для призраков
 		if( Boost == true && Time.time-BoostCount >= 6.0f  ) {
 			Game.Ghosts  =  GameObject.FindGameObjectsWithTag("Ghost");
@@ -83,16 +97,13 @@ public class Game : MonoBehaviour
 	}
 
 	void newGhost() {
-		Ghosts[GhostNum] = GhostObj as GameObject;
-		Ghosts[GhostNum].GetComponent<Ghost>().NumAtX = Convert.ToInt32 (Spawns [2]) ;
-		Ghosts[GhostNum].GetComponent<Ghost>().NumAtY = Convert.ToInt32 (Spawns [3]);
-		Ghosts[GhostNum].transform.position  = new Vector3 (  Convert.ToInt32 (Spawns [2])  * Menu.CubeSize,Convert.ToInt32 (Spawns [3]) * Menu.CubeSize, Menu.CubeSize / 4);
-		Ghosts[GhostNum].name = "Ghost";
-		Instantiate(Ghosts[GhostNum]) ;
-		GhostNum++;
-		if(GhostNum >= Menu.GhostCols) {
-			CancelInvoke();
-		}
+
+		GameObject newGhostObj = GhostObj as GameObject;
+		newGhostObj.GetComponent<Ghost>().NumAtX = Convert.ToInt32 (Spawns [2]) ;
+		newGhostObj.GetComponent<Ghost>().NumAtY = Convert.ToInt32 (Spawns [3]);
+		newGhostObj.transform.position  = new Vector3 (  Convert.ToInt32 (Spawns [2])  * Menu.CubeSize,Convert.ToInt32 (Spawns [3]) * Menu.CubeSize, Menu.CubeSize / 4);
+		newGhostObj.name = "Ghost";
+		Instantiate(newGhostObj) ;
 	}
 
 	public void AddToStage (int TargetI, int TargetJ, int CubeType, float ug)

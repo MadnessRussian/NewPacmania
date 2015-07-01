@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using System;
+using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
 	
@@ -11,7 +12,7 @@ public class Menu : MonoBehaviour {
 	
 	static public int selGridInt = 0;
 	static public int CubeSize = 28 ;
-	static public float PlayerSpeed = 1.0f;
+	static public float PlayerSpeed = 1.2f;
 	static public float GhostSpeed = 1.0f;
 	static public int GhostCols = 3;
 
@@ -24,9 +25,16 @@ public class Menu : MonoBehaviour {
 	static public float buttonheight = 24.0f ;
 	static public int fontsize = 12;
 //	public TextAsset myText;
-	
+
+	public GameObject InputPlayer;
+	public GameObject InputGhost;
+	public GameObject InputGhostNum;
+
 	void Start () {
-		
+		InputGhost.GetComponent<InputField>().text =Convert.ToString( GhostSpeed );
+		InputPlayer.GetComponent<InputField>().text =Convert.ToString( PlayerSpeed );
+		InputGhostNum.GetComponent<InputField>().text =Convert.ToString( GhostCols );
+
 		if(Screen.width < 480) {
 			buttonwidth = buttonwidth / (480f/Screen.width);
 			buttonheight = buttonheight / (480f/Screen.height);
@@ -37,6 +45,7 @@ public class Menu : MonoBehaviour {
 	}
 	
 	void Update () {
+
 	}
 
 	void Parse () {
@@ -67,6 +76,9 @@ public class Menu : MonoBehaviour {
 			Application.LoadLevel("Builder");
 		}
 		if (GUI.Button (new Rect (Screen.width/2 -50 , 70,100,40), "Play")) {
+			GhostSpeed = Convert.ToSingle( InputGhost.GetComponent<InputField>().text) ;
+			PlayerSpeed = Convert.ToSingle( InputPlayer.GetComponent<InputField>().text ) ;
+			GhostCols = Convert.ToInt32(	InputGhostNum.GetComponent<InputField>().text );
 			Application.LoadLevel("Game");
 
 		} 
