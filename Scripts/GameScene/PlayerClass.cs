@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 using System;
 
@@ -13,8 +14,8 @@ public class PlayerClass : MonoBehaviour {
 	public int[] Direction;
 	public int[] possibleDirection;	
 
-	public float ObjectSpeed;
-	public float playerspeedcoef ;
+	private float ObjectSpeed;
+	private float playerspeedcoef ;
 	int Proverka;
 
 
@@ -53,6 +54,13 @@ public class PlayerClass : MonoBehaviour {
 			if( Game.Walls[NumAtX,NumAtY ].GetComponent<Wall>().ObjectArray[Proverka] == 1) {
 				Direction[0] = possibleDirection[0];
 				Direction[1] = possibleDirection[1];
+				ObjectSpeed=1.0f;
+			} else {
+				ObjectSpeed=0;
+			}
+
+			Proverka = Check(Direction[0],Direction[1]);
+			if( Game.Walls[NumAtX,NumAtY ].GetComponent<Wall>().ObjectArray[Proverka] == 1) {
 				ObjectSpeed=1.0f;
 			} else {
 				ObjectSpeed=0;
