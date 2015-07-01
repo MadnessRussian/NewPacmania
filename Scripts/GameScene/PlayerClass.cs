@@ -13,19 +13,19 @@ public class PlayerClass : MonoBehaviour {
 	public int[] Direction;
 	public int[] possibleDirection;	
 
-	public float PlayerSpeed ;
+	public float ObjectSpeed;
 	public float playerspeedcoef ;
 	int Proverka;
 
 
-	public bool start = false;
+	public bool buttonsPress = false;
 
 	void Start () {
 
 		playerspeedcoef =   Menu.PlayerSpeed;
-		PlayerSpeed = 0;
+		ObjectSpeed= 0;
 		Proverka = 0;
-		start = false;
+		buttonsPress = false;
 		gameObject.transform.localScale = new Vector3 (Menu.CubeSize /2 , Menu.CubeSize/2, Menu.CubeSize/2);
 		
 										
@@ -38,8 +38,8 @@ public class PlayerClass : MonoBehaviour {
 
 	void Update () {
 
-		gameObject.transform.position = new Vector3(transform.position.x + (Direction[0] * PlayerSpeed *  playerspeedcoef ),transform.position.y + (Direction[1]   * PlayerSpeed *  playerspeedcoef ),transform.position.z);
-		Delta += PlayerSpeed *  playerspeedcoef   ;
+		gameObject.transform.position = new Vector3(transform.position.x + (Direction[0] *   playerspeedcoef *ObjectSpeed ),transform.position.y + (Direction[1]   *  playerspeedcoef  * ObjectSpeed ),transform.position.z);
+		Delta += playerspeedcoef  *  ObjectSpeed   ;
 
 	
 		if (Math.Round(Delta) >=  Menu.CubeSize ) {
@@ -53,49 +53,44 @@ public class PlayerClass : MonoBehaviour {
 			if( Game.Walls[NumAtX,NumAtY ].GetComponent<Wall>().ObjectArray[Proverka] == 1) {
 				Direction[0] = possibleDirection[0];
 				Direction[1] = possibleDirection[1];
-			}
-
-			////// Нужно для того,чтобы не останавливаться об стены во время движения ///////
-			Proverka = Check(Direction[0],Direction[1]);
-			if( Game.Walls[NumAtX,NumAtY ].GetComponent<Wall>().ObjectArray[Proverka] == 1) {
-				PlayerSpeed = Menu.PlayerSpeed;
+				ObjectSpeed=1.0f;
 			} else {
-				PlayerSpeed = 0;
+				ObjectSpeed=0;
 			}
+		
 
 		}
-
-		if(PlayerSpeed == 0 && start == true ){
+		// Если остановились  у стены и нажали кнопку,меняем направление
+		if(ObjectSpeed== 0 && buttonsPress == true ){
 			int Proverka = Check(possibleDirection[0],possibleDirection[1]);
 			Wall findObject =  Game.Walls[NumAtX,NumAtY ].GetComponent<Wall>();
 			if ( findObject.ObjectArray[Proverka] == 1 ) {
 							Direction[0] = possibleDirection[0];
 							Direction[1] = possibleDirection[1];
-							PlayerSpeed = Menu.PlayerSpeed;
+						ObjectSpeed= 1.0f	;
 						}
-
 		}
 
 
 		if (Input.GetKeyDown ("down")) {
 			possibleDirection[1] = -1;
 			possibleDirection[0] = 0; 
-			start = true;
+			buttonsPress = true;
 		} else 
 		if (Input.GetKeyDown ("up")) {
 			possibleDirection[1] = 1;
 			possibleDirection[0] = 0;
-			start = true;
+			buttonsPress = true;
 		} else 
 		if (Input.GetKeyDown ("right") ) {
 			possibleDirection[0] = 1;
 			possibleDirection[1] = 0; 
-			start = true;
+			buttonsPress = true;
 		} else 
 		if (Input.GetKeyDown ("left") ) {
 			possibleDirection[0] = -1;
 			possibleDirection[1] = 0; 
-			start = true;
+			buttonsPress = true;
 		}  
 		
 	}

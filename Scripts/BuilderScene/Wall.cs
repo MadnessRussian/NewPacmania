@@ -60,14 +60,14 @@ public class Wall : MonoBehaviour
 			} else {
 				gameObject.transform.localScale = new Vector3 (Menu.CubeSize*0.375f, Menu.CubeSize*0.375f, Menu.CubeSize*0.375f);	
 			}
-			GetComponent<Renderer>().material.color = Color.white;
+			//GetComponent<Renderer>().material.color = Color.white;
 			
 
 			if(_parent!= null){
 				Parent = _parent.GetComponent<Builder>();
 				
 			} else {
-				GetComponent<Renderer>().material.color = Color.red;
+			//	GetComponent<Renderer>().material.color = Color.red;
 			}
 
 		}

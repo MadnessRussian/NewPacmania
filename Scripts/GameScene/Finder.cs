@@ -28,7 +28,7 @@ public class Finder : MonoBehaviour {
 		// Заполнение массива и обнуление цветов
 		foreach( GameObject elementObject in Game.Walls ) {
 			if(elementObject !=null) {
-			elementObject.GetComponent<Renderer>().material.color = Color.red;
+			//elementObject.GetComponent<Renderer>().material.color = Color.red;
 			Wall element = elementObject.GetComponent<Wall>();
 			Elements[ element.i ,element. j ] =  new Cell();
 			Elements[ element.i ,element. j ] .open = false;

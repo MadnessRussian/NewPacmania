@@ -26,7 +26,7 @@ public class Ghost : MonoBehaviour {
 
 
 	private float SpeedParametr ; // Параметр для установки движения, 0 - стоит, 1 - идет
-	private float ObjectSpeed = Menu.GhostSpeed ; // Скорость обьекта
+	private float ObjectSpeed = 0 ; // Скорость обьекта
 
 	public int State = 0; // Состояния обьекта : 0 - гуляет (синий),1 - ищет игрока(зеленый) , 2 - бежит на базу(красный),3 - убегает рандомно от игрока(розовый)
 
@@ -38,9 +38,9 @@ public class Ghost : MonoBehaviour {
 	public bool findend = false;
 
 	void Start () {
-
+		
 		Find =GetComponent<Finder>() ;
-	 	
+		ObjectSpeed = Menu.GhostSpeed ;
 		gameObject.transform.localScale = new Vector3 (Menu.CubeSize /2 , Menu.CubeSize/2, Menu.CubeSize/2);
 		Direction = new int[] {0,0}; // Направление движения в этот момент
 		SpeedParametr  = 0;
